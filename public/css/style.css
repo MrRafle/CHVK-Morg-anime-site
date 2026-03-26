@@ -1,0 +1,720 @@
+/* ====================== CSS ПЕРЕМЕННЫЕ ДЛЯ ТЕМ ====================== */
+:root[data-theme="dark"] {
+    --bg-primary: #111;
+    --bg-secondary: #222;
+    --bg-tertiary: #333;
+    --text-primary: #eee;
+    --text-secondary: #aaa;
+    --text-tertiary: #ccc;
+    --border-color: #444;
+    --btn-primary: #0066cc;
+    --btn-primary-hover: #0080ff;
+    --btn-danger: #c33;
+    --card-shadow: rgba(0,0,0,0.7);
+}
+
+:root[data-theme="light"] {
+    --bg-primary: #f5f5f5;
+    --bg-secondary: #ffffff;
+    --bg-tertiary: #e8e8e8;
+    --text-primary: #1a1a1a;
+    --text-secondary: #666;
+    --text-tertiary: #333;
+    --border-color: #ddd;
+    --btn-primary: #0066cc;
+    --btn-primary-hover: #0052a3;
+    --btn-danger: #d32f2f;
+    --card-shadow: rgba(0,0,0,0.1);
+}
+
+:root {
+    --bg-primary: #111;
+    --bg-secondary: #222;
+    --bg-tertiary: #333;
+    --text-primary: #eee;
+    --text-secondary: #aaa;
+    --text-tertiary: #ccc;
+    --border-color: #444;
+    --btn-primary: #0066cc;
+    --btn-primary-hover: #0080ff;
+    --btn-danger: #c33;
+    --card-shadow: rgba(0,0,0,0.7);
+}
+
+/* ====================== ОСНОВНЫЕ СТИЛИ ====================== */
+body { 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+.page { display: none; }
+.page.active { display: block; }
+
+#results { 
+    display: flex; 
+    flex-wrap: wrap; 
+    justify-content: center; 
+    gap: 16px;
+}
+.card { 
+    margin: 12px 0; 
+    padding: 12px; 
+    background: var(--bg-secondary);
+    border-radius: 10px; 
+    width: 220px; 
+    text-align: center; 
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    transition: all 0.3s ease;
+}
+.card img { 
+    width: 140px; 
+    height: 210px; 
+    object-fit: cover; 
+    border-radius: 6px; 
+    display: block; 
+    margin: 0 auto 8px auto;
+}
+.card h4 { 
+    margin: 8px 0 12px 0; 
+    flex-grow: 1; 
+    word-break: break-word;
+}
+.card button { 
+    margin-top: auto; 
+    padding: 8px 16px; 
+    background: var(--btn-primary);
+    color: white; 
+    border: none; 
+    border-radius: 6px; 
+    cursor: pointer; 
+    transition: all 0.3s ease;
+}
+.card button:hover { background: var(--btn-primary-hover); }
+
+/* Бейдж "Смотрю" */
+.watching-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: #e05c00;
+    color: white;
+    font-size: 0.7em;
+    font-weight: bold;
+    padding: 3px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.card.watching {
+    border: 2px solid #e05c00;
+}
+
+#controls { 
+    margin: 20px 0; 
+    text-align: center; 
+}
+#controls select, #controls button {
+    padding: 10px 14px;
+    margin: 8px 4px;
+    font-size: 1em;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+#controls button {
+    background: var(--btn-primary);
+    color: white;
+}
+#controls button:hover {
+    background: var(--btn-primary-hover);
+}
+#player { 
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    aspect-ratio: 16 / 9;
+    max-width: 75%;
+    background: var(--bg-tertiary); 
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px var(--card-shadow);
+}
+
+#player iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 8px;
+}
+
+#anime-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+#anime-poster img {
+    width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px var(--card-shadow);
+}
+#anime-description {
+    flex: 1;
+    min-width: 300px;
+}
+#anime-details {
+    list-style: none;
+    padding-left: 0;
+    margin: 16px 0 0 0;
+}
+#anime-details li {
+    margin-bottom: 10px;
+    font-size: 1.05em;
+    line-height: 1.4;
+}
+#anime-details strong {
+    font-weight: bold;
+    min-width: 140px;
+    display: inline-block;
+    color: var(--text-tertiary);
+}
+#back-btn {
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+#back-btn:hover { 
+    background: var(--border-color);
+}
+
+/* Модалка */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+}
+.modal-content {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    padding: 30px;
+    border-radius: 12px;
+    width: 380px;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.tab-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+.tab-buttons button {
+    padding: 10px 20px;
+    background: var(--bg-tertiary);
+    border: none;
+    color: var(--text-primary);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex: 1;
+}
+.tab-buttons button.active {
+    background: var(--btn-primary);
+    color: white;
+}
+
+/* Формы в модалке */
+#login-form, #register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+#login-form h2, #register-form h2 {
+    margin: 0 0 10px 0;
+    font-size: 1.4em;
+}
+
+/* Кнопки модалки */
+.modal-content .btn-primary,
+.modal-content .btn-secondary {
+    width: 100%;
+    margin: 0;
+}
+
+/* Профиль */
+#profile-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 20px;
+}
+.profile-card {
+    background: var(--bg-secondary);
+    border-radius: 10px;
+    width: 200px;
+    padding: 10px;
+    text-align: center;
+    position: relative;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px var(--card-shadow);
+}
+.profile-card img {
+    width: 120px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+.profile-card h4 {
+    font-size: 0.9em;
+    margin: 8px 0 4px 0;
+    word-break: break-word;
+    color: var(--text-primary);
+}
+.profile-card .ep-info {
+    font-size: 0.8em;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+.profile-card button {
+    padding: 6px 14px;
+    background: var(--btn-primary);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85em;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+.profile-card button:hover { background: var(--btn-primary-hover); }
+.profile-card .delete-btn {
+    background: var(--btn-danger);
+    margin-top: 4px;
+}
+.profile-card .delete-btn:hover { background: #ff4444; }
+#nav-bar {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 15px;
+}
+#nav-bar button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+#nav-bar button:hover { 
+    background: var(--border-color);
+}
+#nav-bar .auth-area {
+    margin-left: auto;
+    display: flex;
+    gap: 8px;
+}
+/* ====================== ПОИСК ====================== */
+.search-input {
+    padding: 10px 14px;
+    width: 300px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    border-radius: 6px;
+    font-size: 1em;
+    margin-right: 8px;
+    transition: all 0.3s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--btn-primary);
+    box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.3);
+}
+
+/* ====================== ОБЩИЕ КНОПКИ ====================== */
+.btn-primary {
+    padding: 10px 20px;
+    background: var(--btn-primary);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: var(--btn-primary-hover);
+}
+
+.btn-secondary {
+    padding: 10px 20px;
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background: var(--border-color);
+}
+
+/* Для модалки */
+.input-field {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    border-radius: 6px;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: var(--btn-primary);
+    box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.3);
+}
+
+/* Дополнительно — исправляем контролы на странице аниме */
+#controls select {
+    padding: 10px 14px;
+    margin: 8px 4px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    border-radius: 6px;
+    min-width: 160px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#controls select:hover {
+    border-color: var(--btn-primary);
+}
+
+#controls select:focus {
+    outline: none;
+    border-color: var(--btn-primary);
+    box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.3);
+}
+
+/* Убираем дублирование стилей для кнопок в карточках и профиле */
+.card button,
+.profile-card button {
+    margin-top: auto;
+    padding: 8px 16px;
+    background: var(--btn-primary);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.card button:hover,
+.profile-card button:hover {
+    background: var(--btn-primary-hover);
+}
+
+/* ====================== УЛУЧШЕННЫЙ ДИЗАЙН И АДАПТИВНОСТЬ ====================== */
+
+/* Страницы */
+#search-page h1, #profile-page h1 {
+    margin: 0 0 20px 0;
+    font-size: 2em;
+    color: var(--text-primary);
+}
+
+/* Улучшенный дизайн карточек */
+.card {
+    box-shadow: 0 2px 12px var(--card-shadow);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px var(--card-shadow);
+}
+
+/* Улучшенный дизайн профиля */
+#profile-page {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+#profile-list {
+    max-width: 100%;
+}
+
+/* Поиск и контролы */
+#search-page {
+    text-align: center;
+}
+
+#search-page input[type="text"],
+#search-page button {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* Аниме страница */
+#anime-page {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+#anime-info {
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 30px;
+}
+
+/* Улучшенный плеер */
+#player {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px var(--card-shadow);
+}
+
+#player iframe {
+    border-radius: 8px;
+}
+
+/* Селекты с улучшенным дизайном */
+#controls {
+    background: var(--bg-secondary);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px var(--card-shadow);
+    margin: 20px 0;
+}
+
+#controls label {
+    font-weight: 600;
+    margin-right: 8px;
+    color: var(--text-primary);
+}
+
+/* Адаптивность */
+@media (max-width: 1024px) {
+    #anime-info {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    #anime-poster img {
+        width: 250px;
+    }
+
+    #anime-description {
+        min-width: unset;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 15px;
+    }
+
+    #nav-bar {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    #nav-bar button {
+        padding: 6px 12px;
+        font-size: 0.9em;
+    }
+
+    #nav-bar .auth-area {
+        margin-left: 0;
+        width: 100%;
+        order: 3;
+    }
+
+    .search-input {
+        width: 100%;
+        box-sizing: border-box;
+        margin-right: 0;
+        margin-bottom: 8px;
+    }
+
+    .btn-primary {
+        width: 100%;
+    }
+
+    #profile-list {
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .profile-card {
+        width: 180px;
+    }
+
+    #anime-info {
+        gap: 15px;
+    }
+
+    #anime-poster img {
+        width: 200px;
+    }
+
+    #results {
+        justify-content: center;
+    }
+
+    .card {
+        width: 180px;
+    }
+
+    .card img {
+        width: 110px;
+        height: 165px;
+    }
+
+    #player {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+        margin: 0;
+    }
+
+    #nav-bar button {
+        padding: 6px 10px;
+        font-size: 0.8em;
+    }
+
+    .search-input {
+        width: 100%;
+        font-size: 16px; /* Предотвращает зум на iOS */
+    }
+
+    #profile-list {
+        gap: 12px;
+    }
+
+    .profile-card {
+        width: 160px;
+        padding: 8px;
+    }
+
+    .profile-card img {
+        width: 100px;
+        height: 150px;
+    }
+
+    #results {
+        gap: 12px;
+    }
+
+    .card {
+        width: 150px;
+        padding: 10px;
+    }
+
+    .card img {
+        width: 100px;
+        height: 150px;
+    }
+
+    #anime-poster img {
+        width: 150px;
+    }
+
+    #animation-title {
+        font-size: 1.5em;
+    }
+
+    .modal-content {
+        width: 90%;
+        max-width: 350px;
+    }
+
+    #controls {
+        padding: 15px;
+        margin: 15px 0;
+    }
+
+    #controls select {
+        width: 100%;
+        margin: 8px 0;
+        box-sizing: border-box;
+    }
+
+    #player {
+        max-width: 100%;
+    }
+}
+
+/* ====================== АНИМАЦИИ И ПЕРЕХОДЫ ====================== */
+
+/* Плавные переходы */
+* {
+    transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Анимация загрузки */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card, .profile-card {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Анимация для страниц */
+.page.active {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Hover эффекты для кнопок */
+button {
+    transition: all 0.3s ease;
+}
+
+button:active {
+    transform: scale(0.98);
+}

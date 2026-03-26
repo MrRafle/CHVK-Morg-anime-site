@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>Yummy Anime Viewer</title>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="shortcut icon" href="favicon.ico">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div id="nav-bar">
+        <button onclick="navigateTo('/')">Главная</button>
+        <button id="profile-nav-btn" onclick="navigateTo('/profile')" style="display:none;">Профиль</button>
+        <div class="auth-area">
+            <button id="theme-toggle" onclick="toggleTheme()" title="Переключить тему">Светлая</button>
+            <button id="login-btn" onclick="showModal()">Войти / Регистрация</button>
+            <button id="logout-btn" onclick="logout()" style="display:none; background:#c33;">Выйти</button>
+        </div>
+    </div>
+
+    <!-- Модалка авторизации -->
+    <div id="auth-modal" class="modal">
+        <div class="modal-content">
+            <div class="tab-buttons">
+                <button onclick="switchTab(0)" id="tab-login" class="active">Вход</button>
+                <button onclick="switchTab(1)" id="tab-register">Регистрация</button>
+            </div>
+
+            <div id="login-form">
+                <h2>Вход</h2>
+                <input id="login-email" type="email" placeholder="Email" class="input-field">
+                <input id="login-password" type="password" placeholder="Пароль" class="input-field">
+                <button onclick="performLogin()" class="btn-primary">Войти</button>
+            </div>
+
+            <div id="register-form" style="display:none;">
+                <h2>Регистрация</h2>
+                <input id="reg-email" type="email" placeholder="Email" class="input-field">
+                <input id="reg-password" type="password" placeholder="Пароль" class="input-field">
+                <button onclick="performRegister()" class="btn-primary">Зарегистрироваться</button>
+            </div>
+
+            <button onclick="hideModal()" class="btn-secondary">Отмена</button>
+        </div>
+    </div>
+
+    <!-- Страница поиска -->
+    <div id="search-page" class="page active">
+        <h1>Просмотр Аниме</h1>
+        <input type="text" id="searchInput" placeholder="Поиск аниме (например, Наруто)" class="search-input">
+        <button onclick="searchAnime()" class="btn-primary">Искать</button>
+        <div id="results"></div>
+    </div>
+
+    <!-- Страница аниме -->
+    <div id="anime-page" class="page">
+        <button id="back-btn" class="btn-secondary">← Назад</button>
+        <div id="anime-info">
+            <div id="anime-poster"></div>
+            <div id="anime-description">
+                <h1 id="anime-title"></h1>
+                <p id="anime-desc"></p>
+                <ul id="anime-details"></ul>
+            </div>
+        </div>
+
+        <div id="controls">
+            <label>Озвучка: </label>
+            <select id="dubbing-select"></select>
+
+            <label>Плеер: </label>
+            <select id="player-select"></select>
+
+            <label>Серия: </label>
+            <select id="episode-select"></select>
+
+            <button onclick="playSelected()" class="btn-primary">Смотреть</button>
+        </div>
+
+        <div id="player"></div>
+    </div>
+
+    <!-- Страница профиля -->
+    <div id="profile-page" class="page">
+        <h1>Мой профиль</h1>
+        <p style="color:#aaa;">Продолжить просмотр:</p>
+        <div id="profile-list"><p style="color:#666;">Загрузка...</p></div>
+    </div>
+
+    <!-- JavaScript файлы -->
+    <script src="js/theme.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/history.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/router.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
