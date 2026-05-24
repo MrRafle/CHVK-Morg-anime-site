@@ -18,7 +18,8 @@ async function loadTitle(id) {
 
         if (!animeRes.ok || !epsRes.ok) throw new Error('Не удалось загрузить данные');
 
-        const anime = (await animeRes.json()).response || await animeRes.json();
+        const animeData = await animeRes.json();
+        const anime = animeData?.response ?? animeData ?? {};
         const epsData = await epsRes.json();
 
         // Заполнение информации об аниме (оставляем как было)
