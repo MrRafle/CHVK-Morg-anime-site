@@ -542,61 +542,67 @@ body {
     }
 }
 
+/* ====================== АДАПТИВНОСТЬ ДЛЯ ПЛАНШЕТОВ (≤768px) ====================== */
 @media (max-width: 768px) {
     body {
         padding: 15px;
     }
 
+    #search-page h1, #profile-page h1 {
+        font-size: 1.6em;
+        margin-bottom: 15px;
+    }
+
+    /* Навигация */
     #nav-bar {
         flex-wrap: wrap;
         gap: 8px;
+        margin-bottom: 12px;
     }
 
     #nav-bar button {
         padding: 6px 12px;
         font-size: 0.9em;
+        flex: 1 1 auto;
+        min-width: 80px;
     }
 
     #nav-bar .auth-area {
         margin-left: 0;
         width: 100%;
+        gap: 6px;
         order: 3;
     }
 
+    #nav-bar .auth-area button {
+        flex: 1;
+    }
+
+    /* Поиск */
     .search-input {
         width: 100%;
         box-sizing: border-box;
         margin-right: 0;
         margin-bottom: 8px;
+        padding: 12px;
+        font-size: 16px;
     }
 
-    .btn-primary {
+    #search-page button {
         width: 100%;
+        margin-top: 8px;
     }
 
-    #profile-list {
-        flex-direction: row;
-        justify-content: center;
-    }
-
-    .profile-card {
-        width: 180px;
-    }
-
-    #anime-info {
-        gap: 15px;
-    }
-
-    #anime-poster img {
-        width: 200px;
-    }
-
+    /* Карточки */
     #results {
         justify-content: center;
+        gap: 12px;
     }
 
     .card {
         width: 180px;
+        padding: 10px;
+        margin: 8px 0;
     }
 
     .card img {
@@ -604,81 +610,369 @@ body {
         height: 165px;
     }
 
+    .card h4 {
+        font-size: 0.9em;
+        margin: 6px 0 10px 0;
+    }
+
+    /* Профиль */
+    #profile-list {
+        gap: 12px;
+        justify-content: center;
+    }
+
+    .profile-card {
+        width: 170px;
+        padding: 8px;
+    }
+
+    .profile-card img {
+        width: 110px;
+        height: 165px;
+    }
+
+    /* Аниме страница */
+    #anime-info {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    #anime-poster img {
+        width: 220px;
+    }
+
+    #anime-description {
+        width: 100%;
+    }
+
+    #anime-details strong {
+        min-width: 120px;
+    }
+
+    /* Контролы */
+    #controls {
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #controls label {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 0.95em;
+    }
+
+    #controls select {
+        width: 100%;
+        margin: 5px 0 10px 0;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+
+    #controls button {
+        width: 100%;
+        margin: 10px 0 0 0;
+    }
+
+    /* Плеер */
     #player {
         max-width: 100%;
+        margin: 15px auto;
+    }
+
+    /* Модалка */
+    .modal-content {
+        width: 85%;
+        max-width: 380px;
+        padding: 20px;
+        gap: 12px;
+    }
+
+    .tab-buttons {
+        gap: 8px;
+    }
+
+    .tab-buttons button {
+        padding: 8px 16px;
+        font-size: 0.95em;
+    }
+
+    .input-field {
+        padding: 10px;
+        font-size: 16px;
+    }
+
+    #back-btn {
+        padding: 8px 16px;
+        margin-bottom: 15px;
+        width: auto;
     }
 }
 
+/* ====================== АДАПТИВНОСТЬ ДЛЯ МОБИЛЬНЫХ ТЕЛЕФОНОВ (≤480px) ====================== */
 @media (max-width: 480px) {
     body {
         padding: 10px;
         margin: 0;
     }
 
+    #search-page h1, #profile-page h1 {
+        font-size: 1.4em;
+        margin-bottom: 12px;
+    }
+
+    /* Навигация для мобилки */
+    #nav-bar {
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-bottom: 10px;
+    }
+
+    #nav-bar button:first-child {
+        min-width: auto;
+        flex: 0 1 auto;
+    }
+
+    #nav-bar #profile-nav-btn {
+        flex: 1 1 auto;
+    }
+
     #nav-bar button {
         padding: 6px 10px;
-        font-size: 0.8em;
+        font-size: 0.75em;
+        flex: 0 1 auto;
     }
 
+    #nav-bar .auth-area {
+        width: 100%;
+        gap: 4px;
+        margin-top: 6px;
+    }
+
+    #nav-bar .auth-area button {
+        flex: 1;
+        padding: 6px 8px;
+        font-size: 0.7em;
+    }
+
+    /* Поиск на мобилке */
     .search-input {
         width: 100%;
+        box-sizing: border-box;
+        margin-right: 0;
+        margin-bottom: 8px;
+        padding: 12px;
         font-size: 16px; /* Предотвращает зум на iOS */
+        border-radius: 6px;
     }
 
-    #profile-list {
-        gap: 12px;
+    #search-page button {
+        width: 100%;
+        padding: 12px;
+        margin-top: 8px;
+        font-size: 0.95em;
     }
 
-    .profile-card {
-        width: 160px;
-        padding: 8px;
-    }
-
-    .profile-card img {
-        width: 100px;
-        height: 150px;
-    }
-
+    /* Карточки для мобилки */
     #results {
-        gap: 12px;
+        gap: 10px;
+        justify-content: center;
     }
 
     .card {
-        width: 150px;
-        padding: 10px;
+        width: 140px;
+        padding: 8px;
+        margin: 6px 0;
     }
 
     .card img {
-        width: 100px;
-        height: 150px;
+        width: 90px;
+        height: 135px;
+    }
+
+    .card h4 {
+        font-size: 0.8em;
+        margin: 5px 0 8px 0;
+        line-height: 1.3;
+    }
+
+    .card button {
+        padding: 6px 12px;
+        font-size: 0.75em;
+    }
+
+    .watching-badge {
+        font-size: 0.6em;
+        padding: 2px 6px;
+    }
+
+    /* Профиль для мобилки */
+    #profile-list {
+        gap: 10px;
+        justify-content: center;
+    }
+
+    .profile-card {
+        width: 135px;
+        padding: 6px;
+    }
+
+    .profile-card img {
+        width: 90px;
+        height: 135px;
+    }
+
+    .profile-card h4 {
+        font-size: 0.75em;
+        margin: 5px 0 3px 0;
+    }
+
+    .profile-card .ep-info {
+        font-size: 0.7em;
+        margin-bottom: 6px;
+    }
+
+    .profile-card button {
+        padding: 4px 10px;
+        font-size: 0.7em;
+    }
+
+    /* Аниме страница для мобилки */
+    #anime-info {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        padding-bottom: 15px;
     }
 
     #anime-poster img {
-        width: 150px;
+        width: 160px;
+        border-radius: 8px;
     }
 
-    #animation-title {
-        font-size: 1.5em;
+    #anime-description {
+        width: 100%;
     }
 
-    .modal-content {
-        width: 90%;
-        max-width: 350px;
+    #anime-description h1 {
+        font-size: 1.3em;
+        margin: 10px 0;
     }
 
+    #anime-description p {
+        font-size: 0.95em;
+        line-height: 1.4;
+    }
+
+    #anime-details li {
+        font-size: 0.9em;
+        margin-bottom: 8px;
+    }
+
+    #anime-details strong {
+        display: block;
+        min-width: unset;
+        margin-bottom: 2px;
+        color: var(--text-tertiary);
+    }
+
+    /* Контролы для мобилки */
     #controls {
-        padding: 15px;
-        margin: 15px 0;
+        padding: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin: 12px 0;
+        border-radius: 6px;
+    }
+
+    #controls label {
+        display: block;
+        margin: 0;
+        padding: 0;
+        font-size: 0.85em;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 4px;
     }
 
     #controls select {
         width: 100%;
-        margin: 8px 0;
+        margin: 0;
+        padding: 10px;
         box-sizing: border-box;
+        font-size: 16px; /* Предотвращает зум на iOS */
+        margin-bottom: 6px;
     }
 
+    #controls button {
+        width: 100%;
+        margin: 4px 0 0 0;
+        padding: 12px;
+        font-size: 0.9em;
+    }
+
+    /* Плеер для мобилки */
     #player {
         max-width: 100%;
+        aspect-ratio: 16 / 9;
+        margin: 12px auto;
+    }
+
+    /* Модалка для мобилки */
+    .modal {
+        padding: 0 10px;
+    }
+
+    .modal-content {
+        width: 100%;
+        max-width: 100%;
+        padding: 15px;
+        gap: 10px;
+        border-radius: 8px;
+    }
+
+    .tab-buttons {
+        gap: 6px;
+        margin-bottom: 8px;
+    }
+
+    .tab-buttons button {
+        padding: 8px 12px;
+        font-size: 0.85em;
+    }
+
+    #login-form h2, #register-form h2 {
+        font-size: 1.2em;
+        margin: 0 0 8px 0;
+    }
+
+    .input-field {
+        padding: 10px;
+        margin: 8px 0;
+        font-size: 16px; /* Предотвращает зум на iOS */
+    }
+
+    .modal-content .btn-primary,
+    .modal-content .btn-secondary {
+        width: 100%;
+        padding: 12px;
+        font-size: 0.9em;
+    }
+
+    /* Кнопки */
+    #back-btn {
+        padding: 8px 14px;
+        margin-bottom: 12px;
+        width: auto;
+        font-size: 0.85em;
+    }
+
+    .btn-secondary {
+        width: 100%;
+        padding: 10px;
     }
 }
 
