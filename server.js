@@ -25,6 +25,26 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
 
+// Логирование запросов для отладки
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.path} | Accept: ${req.get('accept')}`);
+  next();
+});
+
+// Кеширование для статических файлов (CSS, JS, images)
+app.use(express.static('public', {
+  maxAge: '1d',
+  etag: true
+}));
+
+// Запретить кеширование для API запросов
+app.use('/api', (req, res, next) => {
+  res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0');
+  res.set('Pragma', 'no-cache');
+  res.set('Expires', '0');
+  next();
+});
+
 const pool = new Pool({
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
