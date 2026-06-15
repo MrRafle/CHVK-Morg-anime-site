@@ -192,7 +192,7 @@ app.delete('/api/history/:animeId', authMiddleware, async (req, res) => {
 });
 
 // ====================== API YANI.TV ======================
-app.get('/search/:query', async (req, res) => {
+app.get('/api/search/:query', async (req, res) => {
   try {
     const response = await axios.get(`${API_BASE}/search`, {
       params: { q: req.params.query.trim(), limit: 12, offset: 0 },
@@ -205,7 +205,7 @@ app.get('/search/:query', async (req, res) => {
   }
 });
 
-app.get('/anime/:id', async (req, res) => {
+app.get('/api/anime/:id', async (req, res) => {
   try {
     const response = await axios.get(`${API_BASE}/anime/${req.params.id}`, { headers: HEADERS });
     res.json(response.data);
@@ -214,7 +214,7 @@ app.get('/anime/:id', async (req, res) => {
   }
 });
 
-app.get('/anime/:id/videos', async (req, res) => {
+app.get('/api/anime/:id/videos', async (req, res) => {
   try {
     const response = await axios.get(`${API_BASE}/anime/${req.params.id}/videos`, {
       params: req.query.translation ? { translation: req.query.translation } : {},
