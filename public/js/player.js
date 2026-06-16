@@ -11,8 +11,8 @@ async function loadTitle(id) {
 
     try {
         const [animeRes, epsRes, progress] = await Promise.all([
-            fetch(`${API_URL}/anime/${id}`),
-            fetch(`${API_URL}/anime/${id}/videos`),
+            fetch(`${API_URL}/api/anime/${id}`),
+            fetch(`${API_URL}/api/anime/${id}/videos`),
             getWatchProgress(id)
         ]);
 

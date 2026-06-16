@@ -22,7 +22,7 @@ async function searchAnime() {
         btn.disabled = true;
         btn.textContent = 'Поиск...';
         
-        const res = await fetch(`${API_URL}/search/${encodeURIComponent(query)}`);
+        const res = await fetch(`${API_URL}/api/search/${encodeURIComponent(query)}`);
         if (!res.ok) throw new Error(`Сервер: ${res.status}`);
 
         const data = await res.json();
