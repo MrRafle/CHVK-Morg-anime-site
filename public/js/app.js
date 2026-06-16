@@ -46,11 +46,12 @@ async function searchAnime() {
 
             const card = document.createElement('div');
             card.className = 'card' + (isWatching ? ' watching' : '');
+            card.onclick = () => navigateTo('/anime/' + animeId);
             card.innerHTML = `
                 ${isWatching ? '<div class="watching-badge">Смотрю</div>' : ''}
                 <img src="${fullPoster}" alt="${title}" onerror="this.src='https://via.placeholder.com/140x210?text=Ошибка';">
                 <h4>${title}</h4>
-                <button onclick="navigateTo('/anime/${animeId}')">Серии</button>
+                <button onclick="event.stopPropagation(); navigateTo('/anime/${animeId}')">Смотреть</button>
             `;
             container.appendChild(card);
         });

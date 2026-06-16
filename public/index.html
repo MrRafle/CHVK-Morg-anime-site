@@ -18,6 +18,7 @@
         <button id="profile-nav-btn" onclick="navigateTo('/profile')" style="display:none;">Профиль</button>
         <div class="auth-area">
             <button id="theme-toggle" onclick="toggleTheme()" title="Переключить тему">Светлая</button>
+            <span id="username-label" style="display:none; color: var(--text-secondary); font-size: 0.9em; padding: 0 8px;"></span>
             <button id="login-btn" onclick="showModal()">Войти / Регистрация</button>
             <button id="logout-btn" onclick="logout()" style="display:none; background:#c33;">Выйти</button>
         </div>
@@ -33,14 +34,14 @@
 
             <div id="login-form">
                 <h2>Вход</h2>
-                <input id="login-email" type="email" placeholder="Email" class="input-field">
+                <input id="login-username" type="text" placeholder="Имя пользователя" class="input-field" autocomplete="username">
                 <input id="login-password" type="password" placeholder="Пароль" class="input-field">
                 <button onclick="performLogin()" class="btn-primary">Войти</button>
             </div>
 
             <div id="register-form" style="display:none;">
                 <h2>Регистрация</h2>
-                <input id="reg-email" type="email" placeholder="Email" class="input-field">
+                <input id="reg-username" type="text" placeholder="Имя пользователя (3–50 символов)" class="input-field" autocomplete="username">
                 <input id="reg-password" type="password" placeholder="Пароль" class="input-field">
                 <button onclick="performRegister()" class="btn-primary">Зарегистрироваться</button>
             </div>

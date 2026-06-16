@@ -10,8 +10,8 @@ async function saveWatchProgress(animeId, animeTitle, animePoster, dubbing, play
             body: JSON.stringify({ animeId, animeTitle, animePoster, dubbing, player, episode })
         });
         watchingCache[String(animeId)] = true;
-    } catch (e) { 
-        console.error('Ошибка сохранения прогресса:', e); 
+    } catch (e) {
+        console.error('Ошибка сохранения прогресса:', e);
     }
 }
 
@@ -21,9 +21,10 @@ async function getWatchProgress(animeId) {
         const res = await fetch(`${API_URL}/api/history/${animeId}`, {
             headers: { 'Authorization': `Bearer ${currentToken}` }
         });
+        if (!res.ok) return null;
         return await res.json();
-    } catch { 
-        return null; 
+    } catch {
+        return null;
     }
 }
 
@@ -33,11 +34,12 @@ async function loadWatchingCache() {
         const res = await fetch(`${API_URL}/api/history`, {
             headers: { 'Authorization': `Bearer ${currentToken}` }
         });
+        if (!res.ok) return;
         const list = await res.json();
         watchingCache = {};
         list.forEach(item => watchingCache[String(item.anime_id)] = true);
-    } catch (e) { 
-        console.error(e); 
+    } catch (e) {
+        console.error(e);
     }
 }
 
@@ -67,8 +69,8 @@ async function showProfilePage() {
 
         container.innerHTML = '';
         list.forEach(item => {
-            const poster = item.anime_poster 
-                ? (item.anime_poster.startsWith('//') ? 'https:' + item.anime_poster : item.anime_poster) 
+            const poster = item.anime_poster
+                ? (item.anime_poster.startsWith('//') ? 'https:' + item.anime_poster : item.anime_poster)
                 : 'https://via.placeholder.com/120x180?text=No+Poster';
 
             const card = document.createElement('div');
@@ -87,7 +89,7 @@ async function showProfilePage() {
         });
     } catch (e) {
         console.error('Ошибка загрузки профиля:', e);
-        container.innerHTML = '<p style="color: var(--btn-danger); font-size: 1.1em;">Ошибка загрузки: ' + e.message + '</p>';
+        container.innerHTML = `<p style="color: var(--btn-danger); font-size: 1.1em;">Ошибка загрузки: ${e.message}</p>`;
     }
 }
 

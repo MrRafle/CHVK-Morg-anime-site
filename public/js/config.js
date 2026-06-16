@@ -17,6 +17,7 @@ const API_URL = (() => {
 console.log('API URL:', API_URL);
 
 let currentToken = localStorage.getItem('userToken') || null;
+let currentUsername = localStorage.getItem('username') || null;
 let currentAnimeId = null;
 let watchingCache = {};
 

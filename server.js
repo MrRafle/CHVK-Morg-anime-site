@@ -51,7 +51,7 @@ async function initDB() {
   await pool.query(`
     CREATE TABLE IF NOT EXISTS users (
       id SERIAL PRIMARY KEY,
-      email VARCHAR(255) UNIQUE NOT NULL,
+      username VARCHAR(50) UNIQUE NOT NULL,
       password_hash TEXT NOT NULL,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
@@ -70,7 +70,20 @@ async function initDB() {
     );
   `);
 
-  // Миграция (на всякий случай)
+  // Миграция: переименование email -> username (если таблица уже существует со старой схемой)
+  await pool.query(`
+    DO $$
+    BEGIN
+      IF EXISTS (
+        SELECT 1 FROM information_schema.columns
+        WHERE table_name='users' AND column_name='email'
+      ) THEN
+        ALTER TABLE users RENAME COLUMN email TO username;
+      END IF;
+    END$$;
+  `).catch(() => {});
+
+  // Миграция watch_progress колонок (на случай обновления)
   const columns = [
     { name: 'anime_title', type: 'TEXT' },
     { name: 'anime_poster', type: 'TEXT' },
@@ -91,31 +104,43 @@ initDB().catch(console.error);
 
 // ====================== РЕГИСТРАЦИЯ ======================
 app.post('/api/register', async (req, res) => {
-  const { email, password } = req.body;
-  if (!email || !password) return res.status(400).json({ error: 'Заполните все поля' });
+  const { username, password } = req.body;
+  if (!username || !password) return res.status(400).json({ error: 'Заполните все поля' });
+
+  if (username.length < 3 || username.length > 50) {
+    return res.status(400).json({ error: 'Имя пользователя: от 3 до 50 символов' });
+  }
+  if (!/^[a-zA-Z0-9_\-а-яА-ЯёЁ]+$/.test(username)) {
+    return res.status(400).json({ error: 'Имя пользователя содержит недопустимые символы' });
+  }
+  if (password.length < 6) {
+    return res.status(400).json({ error: 'Пароль должен быть не менее 6 символов' });
+  }
 
   try {
     const hashed = await bcrypt.hash(password, 10);
-    await pool.query('INSERT INTO users (email, password_hash) VALUES ($1, $2)', 
-      [email.toLowerCase(), hashed]);
+    await pool.query('INSERT INTO users (username, password_hash) VALUES ($1, $2)',
+      [username.toLowerCase(), hashed]);
     res.json({ success: true, message: 'Регистрация прошла успешно' });
   } catch (err) {
-    if (err.code === '23505') return res.status(409).json({ error: 'Пользователь уже существует' });
+    if (err.code === '23505') return res.status(409).json({ error: 'Пользователь с таким именем уже существует' });
     res.status(500).json({ error: 'Ошибка сервера' });
   }
 });
 
 // ====================== ЛОГИН ======================
 app.post('/api/login', async (req, res) => {
-  const { email, password } = req.body;
+  const { username, password } = req.body;
+  if (!username || !password) return res.status(400).json({ error: 'Заполните все поля' });
+
   try {
-    const user = await pool.query('SELECT * FROM users WHERE email = $1', [email.toLowerCase()]);
+    const user = await pool.query('SELECT * FROM users WHERE username = $1', [username.toLowerCase()]);
     if (user.rows.length === 0 || !(await bcrypt.compare(password, user.rows[0].password_hash))) {
-      return res.status(401).json({ error: 'Неверный email или пароль' });
+      return res.status(401).json({ error: 'Неверный логин или пароль' });
     }
 
     const token = jwt.sign({ userId: user.rows[0].id }, process.env.JWT_SECRET, { expiresIn: '30d' });
-    res.json({ success: true, token });
+    res.json({ success: true, token, username: user.rows[0].username });
   } catch (err) {
     res.status(500).json({ error: 'Ошибка сервера' });
   }
@@ -151,15 +176,11 @@ app.post('/api/history', authMiddleware, async (req, res) => {
 });
 
 // ====================== ПОЛУЧЕНИЕ ПРОГРЕССА ======================
-app.get('/api/history/:animeId', async (req, res) => {
-  const token = req.headers.authorization?.split(' ')[1];
-  if (!token) return res.json(null);
-
+app.get('/api/history/:animeId', authMiddleware, async (req, res) => {
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const result = await pool.query(
       'SELECT dubbing, player, episode, anime_title, anime_poster FROM watch_progress WHERE user_id = $1 AND anime_id = $2',
-      [decoded.userId, req.params.animeId]
+      [req.user.userId, req.params.animeId]
     );
     res.json(result.rows[0] || null);
   } catch {
@@ -171,8 +192,8 @@ app.get('/api/history', authMiddleware, async (req, res) => {
   try {
     const result = await pool.query(`
       SELECT anime_id, anime_title, anime_poster, dubbing, player, episode, updated_at
-      FROM watch_progress 
-      WHERE user_id = $1 
+      FROM watch_progress
+      WHERE user_id = $1
       ORDER BY updated_at DESC
     `, [req.user.userId]);
     res.json(result.rows);
@@ -191,7 +212,7 @@ app.delete('/api/history/:animeId', authMiddleware, async (req, res) => {
   }
 });
 
-// ====================== API YANI.TV ======================
+// ====================== API YANI.TV (префикс /api/yani/ чтобы не конфликтовать с SPA роутами) ======================
 app.get('/api/search/:query', async (req, res) => {
   try {
     const response = await axios.get(`${API_BASE}/search`, {
